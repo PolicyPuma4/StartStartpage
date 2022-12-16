@@ -1,2 +1,2 @@
-# startstartpage
-Redirects searches with bangs to DuckDuckGo otherwise searches Startpage
+# StartStartpage
+Redirects searches with bangs to DuckDuckGo otherwise redirects to Startpage
