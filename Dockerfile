@@ -1,11 +1,20 @@
-FROM golang:1.19
+FROM alpine:3.17 AS build
 
-WORKDIR /usr/src/app
+RUN apk update
+RUN apk upgrade
+RUN apk add --update go
 
-COPY go.mod main.go ./
+WORKDIR /app
 
-RUN go build -o /usr/local/bin/app ./...
+COPY go.mod ./
+COPY main.go ./
 
-EXPOSE 3000
+RUN go build -o /ssp
 
-CMD ["app"]
+FROM alpine:3.17
+
+WORKDIR /
+
+COPY --from=build /ssp /ssp
+
+CMD ["/ssp"]
