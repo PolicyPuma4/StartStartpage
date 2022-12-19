@@ -11,13 +11,8 @@ import (
 
 func root(w http.ResponseWriter, r *http.Request) {
 	query := strings.TrimSpace(r.URL.Query().Get("query"))
-	var suffix string
-	if r.URL.RawQuery != "" {
-		suffix = "?" + r.URL.RawQuery
-	}
-
 	if query == "" {
-		http.Redirect(w, r, "https://startpage.com"+suffix, http.StatusSeeOther)
+		http.Redirect(w, r, "https://startpage.com"+r.URL.RequestURI(), http.StatusSeeOther)
 		return
 	}
 
@@ -28,7 +23,7 @@ func root(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !matched {
-		http.Redirect(w, r, "https://www.startpage.com/sp/search"+suffix, http.StatusSeeOther)
+		http.Redirect(w, r, "https://www.startpage.com"+r.URL.RequestURI(), http.StatusSeeOther)
 		return
 	}
 
