@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker publish policypuma4/startstartpage
+docker push policypuma4/startstartpage
