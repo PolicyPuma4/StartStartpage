@@ -5,15 +5,13 @@ import (
 	"html"
 	"net/http"
 	"net/url"
-	"os"
 	"regexp"
 	"strings"
 )
 
-var prefs string
-
 func root(w http.ResponseWriter, r *http.Request) {
 	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	prefs := strings.TrimPrefix(strings.TrimSpace(r.URL.Query().Get("prfe")), "https://www.startpage.com/do/mypage.pl?prfe=")
 	if query == "" {
 		address := "https://startpage.com"
 		if prefs != "" {
@@ -42,8 +40,6 @@ func root(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	prefs = url.QueryEscape(strings.TrimPrefix(strings.TrimSpace(os.Getenv("PREFS")), "https://www.startpage.com/do/mypage.pl?prfe="))
-
 	http.HandleFunc("/", root)
 
 	http.ListenAndServe(":3000", nil)
