@@ -11,11 +11,6 @@ import (
 
 func root(w http.ResponseWriter, r *http.Request) {
 	query := strings.TrimSpace(r.URL.Query().Get("query"))
-	if query == "" {
-		http.Redirect(w, r, "https://startpage.com"+r.URL.RequestURI(), http.StatusSeeOther)
-		return
-	}
-
 	matched, err := regexp.Match(`![^\s]{1,}`, []byte(query))
 	if err != nil {
 		fmt.Fprint(w, html.EscapeString(err.Error()))
