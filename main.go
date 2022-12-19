@@ -5,17 +5,21 @@ import (
 	"html"
 	"net/http"
 	"net/url"
+	"os"
 	"regexp"
 	"strings"
 )
 
-// Open search in new tab disabled, safe search disabled and server region set to EU servers
-var ssp_prefs string = "53308301f70432e8195ac16843b38ea5c0ab0e03080d61edd06d725a311fc3c0597636e9064b5df843962b8fd795febd252657d9b0cd79587c886ba0e5e953e3254d1068bc2e010e1ce4d2293e"
+var prefs string
 
 func root(w http.ResponseWriter, r *http.Request) {
 	query := strings.TrimSpace(r.URL.Query().Get("q"))
 	if query == "" {
-		http.Redirect(w, r, "https://startpage.com?prfe="+ssp_prefs, http.StatusSeeOther)
+		address := "https://startpage.com"
+		if prefs != "" {
+			address = address + "?prfe=" + prefs
+		}
+		http.Redirect(w, r, address, http.StatusSeeOther)
 		return
 	}
 
@@ -26,7 +30,11 @@ func root(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !matched {
-		http.Redirect(w, r, "https://www.startpage.com/sp/search?query="+url.QueryEscape(query)+"&prfe="+ssp_prefs, http.StatusSeeOther)
+		address := "https://www.startpage.com/sp/search?query=" + url.QueryEscape(query)
+		if prefs != "" {
+			address = address + "&prfe=" + prefs
+		}
+		http.Redirect(w, r, address, http.StatusSeeOther)
 		return
 	}
 
@@ -34,6 +42,8 @@ func root(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	prefs = strings.TrimPrefix(os.Getenv("PREFS"), "https://www.startpage.com/do/mypage.pl?prfe=")
+
 	http.HandleFunc("/", root)
 
 	http.ListenAndServe(":3000", nil)
