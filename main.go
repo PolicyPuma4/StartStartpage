@@ -10,7 +10,7 @@ import (
 )
 
 func root(w http.ResponseWriter, r *http.Request) {
-	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	query := strings.TrimSpace(r.URL.Query().Get("query"))
 	prefs := strings.TrimPrefix(strings.TrimSpace(r.URL.Query().Get("prfe")), "https://www.startpage.com/do/mypage.pl?prfe=")
 	if query == "" {
 		address := "https://startpage.com"
