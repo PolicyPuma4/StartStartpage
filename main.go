@@ -42,7 +42,7 @@ func root(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	prefs = strings.TrimPrefix(os.Getenv("PREFS"), "https://www.startpage.com/do/mypage.pl?prfe=")
+	prefs = url.QueryEscape(strings.TrimPrefix(strings.TrimSpace(os.Getenv("PREFS")), "https://www.startpage.com/do/mypage.pl?prfe="))
 
 	http.HandleFunc("/", root)
 
