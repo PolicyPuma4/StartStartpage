@@ -4,9 +4,6 @@ services:
   startstartpage:
     image: "policypuma4/startstartpage"
     container_name: "startstartpage"
-    environment:
-      # Open search in a new tab disabled, safe search disabled, HTTP request method set to GET, server region set to EU servers
-      - "PREFS=https://www.startpage.com/do/mypage.pl?prfe=c6385c7b7ff1c0c03ec69c2262177007410a0099d10270aaae567d88734a586910103813b6a0570a6b1093832c5476fcd24f7cf7fc149eb5294e03d491d3339e9c924a16bf7241b827b17f3d00"
     ports:
       - "3000:3000"
     restart: "always"
