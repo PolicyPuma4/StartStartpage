@@ -11,13 +11,13 @@ import (
 
 func root(w http.ResponseWriter, r *http.Request) {
 	query := strings.TrimSpace(r.URL.Query().Get("query"))
-	prefs := strings.TrimPrefix(strings.TrimSpace(r.URL.Query().Get("prfe")), "https://www.startpage.com/do/mypage.pl?prfe=")
+	var suffix string
+	if r.URL.RawQuery != "" {
+		suffix = "?" + r.URL.RawQuery
+	}
+
 	if query == "" {
-		address := "https://startpage.com"
-		if prefs != "" {
-			address = address + "?prfe=" + prefs
-		}
-		http.Redirect(w, r, address, http.StatusSeeOther)
+		http.Redirect(w, r, "https://startpage.com"+suffix, http.StatusSeeOther)
 		return
 	}
 
@@ -28,11 +28,7 @@ func root(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !matched {
-		address := "https://www.startpage.com/sp/search?query=" + url.QueryEscape(query)
-		if prefs != "" {
-			address = address + "&prfe=" + prefs
-		}
-		http.Redirect(w, r, address, http.StatusSeeOther)
+		http.Redirect(w, r, "https://www.startpage.com/sp/search"+suffix, http.StatusSeeOther)
 		return
 	}
 
