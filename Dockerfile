@@ -3,7 +3,7 @@ FROM golang:1.20.2-alpine3.17 AS build
 WORKDIR /usr/src/startstartpage
 
 COPY go.mod ./
-COPY main.go ./
+COPY cmd ./cmd
 
 RUN go build -o /usr/local/bin/startstartpage cmd/startstartpage/main.go
 
