@@ -2,8 +2,8 @@ version: "3"
 
 services:
   startstartpage:
-    image: "policypuma4/startstartpage"
     container_name: "startstartpage"
+    image: "policypuma4/startstartpage:latest"
     ports:
       - "3000:3000"
     restart: "always"

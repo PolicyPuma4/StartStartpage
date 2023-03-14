@@ -1,3 +1,3 @@
-module StartStartpage
+module github.com/PolicyPuma4/StartStartpage
 
-go 1.19
+go 1.20

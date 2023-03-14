@@ -1,20 +1,14 @@
-FROM alpine:3.17 AS build
+FROM golang:1.20.2-alpine3.17 AS build
 
-RUN apk update
-RUN apk upgrade
-RUN apk add --update go
-
-WORKDIR /app
+WORKDIR /usr/src/startstartpage
 
 COPY go.mod ./
 COPY main.go ./
 
-RUN go build -o /ssp
+RUN go build -o /usr/local/bin/startstartpage cmd/startstartpage/main.go
 
 FROM alpine:3.17
 
-WORKDIR /
+COPY --from=build /usr/local/bin/startstartpage /startstartpage
 
-COPY --from=build /ssp /ssp
-
-CMD ["/ssp"]
+CMD ["/startstartpage"]
